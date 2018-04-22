@@ -1,1 +1,2 @@
-![Alt Text](http://ketahole.de/midicoin.gif)
+Prototype:
+http://ketahole.de/midicoin.gif
