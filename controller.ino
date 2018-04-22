@@ -2,6 +2,8 @@ const int coinInt = 0;
 volatile float coinsValue = 0.00;
 const int buttonPin = 5;     // the number of the pushbutton pin
 int coinInsert = 0;
+int debug = 0;
+int fakecoins = 0; // amount of fake coins to insert
 
 const int ledPin1 = 9;
 const int ledPin2 = 10;
@@ -15,27 +17,14 @@ const int ledPin8 = 8;
 void coinInserted() 
 {
   coinsValue = coinsValue + 0.50;  
-  //Serial.print("Credit: Eur");
- // Serial.println(coinsValue);    
+  if (debug == 1) { Serial.print("Credit: Eur");};
+  if (debug == 1) { Serial.println(coinsValue);};    
+  if (debug == 1) { Serial.println("\r\n");};    
   coinInsert = 1;
 }
 
-void setup()
-{
-  pinMode(ledPin1, OUTPUT);
-  pinMode(ledPin2, OUTPUT);
-  pinMode(ledPin3, OUTPUT);
-  pinMode(ledPin4, OUTPUT);
-  pinMode(ledPin5, OUTPUT);
-  pinMode(ledPin6, OUTPUT);
-  pinMode(ledPin7, OUTPUT);
-  pinMode(ledPin8, OUTPUT);
-  Serial.begin(9600);
-  pinMode(A5, INPUT_PULLUP);
-  attachInterrupt(coinInt, coinInserted, RISING);   
-}
-
 void sendMidiNote(int pitch) {
+  if (debug == 1) { Serial.write("MIDI BEGIN\r\n");};
   Serial.write(144);
   Serial.write(pitch);
   Serial.write(100);
@@ -44,6 +33,7 @@ void sendMidiNote(int pitch) {
   Serial.write(pitch);
   Serial.write(0);
   delay(200);
+  if (debug == 1) { Serial.write("MIDI END\r\n");};
 }
 
 void blinkLED( int pin ) {
@@ -79,6 +69,34 @@ void ledFlash( int maxcount, int speed ) {
     digitalWrite(ledPin8, LOW);    // turn the LED off by making the voltage LOW
     delay(speed);
     count = count + 1; 
+  }
+}
+
+void setup()
+{
+  pinMode(ledPin1, OUTPUT);
+  pinMode(ledPin2, OUTPUT);
+  pinMode(ledPin3, OUTPUT);
+  pinMode(ledPin4, OUTPUT);
+  pinMode(ledPin5, OUTPUT);
+  pinMode(ledPin6, OUTPUT);
+  pinMode(ledPin7, OUTPUT);
+  pinMode(ledPin8, OUTPUT);
+  Serial.begin(9600);
+  pinMode(A5, INPUT_PULLUP);
+  attachInterrupt(coinInt, coinInserted, RISING);
+  int c = analogRead(buttonPin);
+  if (c>=1022 && c<=1024){
+    debug = 1;
+    if (debug == 1) { Serial.write("DEBUGGING ENABLED\r\n");};
+    ledFlash(2, 300);
+  }
+  if (c>=1002 && c<=1004){
+    fakecoins = 1;
+    debug = 1;
+    if (debug == 1) { Serial.write("DEBUGGING ENABLED\r\n");};
+    if (debug == 1) { Serial.write("FAKECOIN ENABLED\r\n");};
+    ledFlash(2, 300);
   }
 }
 
@@ -150,10 +168,11 @@ void enablebuttons() {
   enableAllLeds();
   while (true) {
   int c = analogRead(buttonPin);
-//  Serial.print(c);
-//  Serial.print(" ");
+  if (debug == 1) { Serial.print("ADC Button Value: ");};
+  if (debug == 1) { Serial.print(c);};
+  if (debug == 1) { Serial.print("\r\n");};
     if (c>=1022 && c<=1024){
-  //    Serial.print("Button 1\n");
+      if (debug == 1) {Serial.print("Button 1 Pressedr\r\n");};
       disableAllLeds();
       blinkLED(ledPin1);
       sendMidiNote(50);
@@ -161,7 +180,7 @@ void enablebuttons() {
       break;
     }
     if (c>=1002 && c<=1004){
-  //    Serial.print("Button 2\n");
+      if (debug == 1) {Serial.print("Button 2 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin2);
       sendMidiNote(51);
@@ -169,7 +188,7 @@ void enablebuttons() {
       break;
     }
     if (c>=985 && c<=987){
-  //    Serial.print("Button 3\n");
+      if (debug == 1) {Serial.print("Button 3 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin3);
       sendMidiNote(52);
@@ -177,7 +196,7 @@ void enablebuttons() {
       break;
     }
     if (c>=969 && c<=971){
-  //    Serial.print("Button 4\n");
+      if (debug == 1) {Serial.print("Button 4 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin4);
       sendMidiNote(53);
@@ -185,7 +204,7 @@ void enablebuttons() {
       break;
     }
     if (c>=955 && c<=958){
-  //    Serial.print("Button 5\n");
+      if (debug == 1) {Serial.print("Button 5 Pressedr\r\n");};
       disableAllLeds();
       blinkLED(ledPin5);
       sendMidiNote(54);
@@ -193,7 +212,7 @@ void enablebuttons() {
       break;
     }
     if (c>=944 && c<=946){
-  //    Serial.print("Button 6\n");
+      if (debug == 1) {Serial.print("Button 6 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin6);
       sendMidiNote(55);
@@ -201,7 +220,7 @@ void enablebuttons() {
       break;
     }
  //   if (c>=940 && c<=941){
- //     Serial.print("Button 7\n");
+ //     if (debug == 1) {Serial.print("Button 2 Pressed\r\n");};
  //     disableAllLeds();
  //     blinkLED(ledPin7);
  //     sendMidiNote(56);
@@ -209,7 +228,8 @@ void enablebuttons() {
  //     break;
  //   }
  //  if (c>=942 && c<=943){
-  //    Serial.print("Button 8\n");
+ //     if (debug == 1) {Serial.print("Button 2 Pressed\r\n");};
+ //     Serial.print("Button 8\r\n");
  //     disableAllLeds();
  //     blinkLED(ledPin8);
  //     sendMidiNote(57);
@@ -218,8 +238,8 @@ void enablebuttons() {
  //   }
     delay(100);
   }
- // Serial.print("Credit: ");
- // Serial.print(coinsValue);
+ if (debug == 1) { Serial.print("Credit: ");};
+ if (debug == 1) { Serial.print(coinsValue);};
   if (coinsValue >= 1) {
     while (true) {
      int c = analogRead(buttonPin);
@@ -235,24 +255,26 @@ void enablebuttons() {
 void loop()
 {
   ledChase(40);
-  if(coinsValue >= 0.9){
-    //Serial.print("Enable Buttons");
+  if(coinsValue >= 1.0){
+    if (debug == 1) { Serial.print("Enable Buttons");};
     enablebuttons();
   }
   delay(80);
   ledChase(40);
-  if(coinsValue >= 0.9){
-    //Serial.print("Enable Buttons");
+  if(coinsValue >= 1.0){
+    if (debug == 1) {Serial.print("Enable Buttons");};
     enablebuttons();
   }
   delay(80);
 
-  // inserted Fake Coin
-  coinsValue = coinsValue + 1;
+  // insert Fake Coins at the end of the catching effect
+  if (fakecoins >= 1) {
+    coinsValue = coinsValue + fakecoins;
+  }
 
-  ledFlash(3, 50);
+  ledFlash(2, 50);
   if(coinsValue >= 1.0){
-    //Serial.print("Enable Buttons");
+    if (debug == 1) {Serial.print("Enable Buttons");};
     enablebuttons();
   }
   delay(80);
