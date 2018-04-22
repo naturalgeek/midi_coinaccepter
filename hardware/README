@@ -1,0 +1,4 @@
+This is a dirty drawed adaptor PCB
+to use 8 Buttons at one Analog Input of the Arduino.
+
+Connect the PCBs "LINK" pins to the Arduino.
