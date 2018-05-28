@@ -86,12 +86,12 @@ void setup()
   pinMode(A5, INPUT_PULLUP);
   attachInterrupt(coinInt, coinInserted, RISING);
   int c = analogRead(buttonPin);
-  if (c>=1022 && c<=1024){
+  if (c>=1018 && c<=1024){
     debug = 1;
     if (debug == 1) { Serial.write("DEBUGGING ENABLED\r\n");};
     ledFlash(2, 300);
   }
-  if (c>=1002 && c<=1004){
+  if (c>=1000 && c<=1008){
     fakecoins = 1;
     debug = 1;
     if (debug == 1) { Serial.write("DEBUGGING ENABLED\r\n");};
@@ -171,7 +171,7 @@ void enablebuttons() {
   if (debug == 1) { Serial.print("ADC Button Value: ");};
   if (debug == 1) { Serial.print(c);};
   if (debug == 1) { Serial.print("\r\n");};
-    if (c>=1022 && c<=1024){
+    if (c>=1018 && c<=1024){
       if (debug == 1) {Serial.print("Button 1 Pressedr\r\n");};
       disableAllLeds();
       blinkLED(ledPin1);
@@ -179,7 +179,7 @@ void enablebuttons() {
       coinsValue = coinsValue - 1;
       break;
     }
-    if (c>=1002 && c<=1004){
+    if (c>=995 && c<=1014){
       if (debug == 1) {Serial.print("Button 2 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin2);
@@ -187,7 +187,7 @@ void enablebuttons() {
       coinsValue = coinsValue - 1;
       break;
     }
-    if (c>=985 && c<=987){
+    if (c>=950 && c<=994){
       if (debug == 1) {Serial.print("Button 3 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin3);
@@ -195,7 +195,7 @@ void enablebuttons() {
       coinsValue = coinsValue - 1;
       break;
     }
-    if (c>=969 && c<=971){
+    if (c>=890 && c<=910){
       if (debug == 1) {Serial.print("Button 4 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin4);
@@ -203,7 +203,7 @@ void enablebuttons() {
       coinsValue = coinsValue - 1;
       break;
     }
-    if (c>=955 && c<=958){
+    if (c>=750 && c<=780){
       if (debug == 1) {Serial.print("Button 5 Pressedr\r\n");};
       disableAllLeds();
       blinkLED(ledPin5);
@@ -211,7 +211,7 @@ void enablebuttons() {
       coinsValue = coinsValue - 1;
       break;
     }
-    if (c>=944 && c<=946){
+    if (c>=600 && c<=640){
       if (debug == 1) {Serial.print("Button 6 Pressed\r\n");};
       disableAllLeds();
       blinkLED(ledPin6);
@@ -219,14 +219,14 @@ void enablebuttons() {
       coinsValue = coinsValue - 1;
       break;
     }
- //   if (c>=940 && c<=941){
- //     if (debug == 1) {Serial.print("Button 2 Pressed\r\n");};
- //     disableAllLeds();
- //     blinkLED(ledPin7);
- //     sendMidiNote(56);
- //     coinsValue = coinsValue - 1;
- //     break;
- //   }
+    if (c>=440 && c<=520){
+      if (debug == 1) {Serial.print("Button 2 Pressed\r\n");};
+      disableAllLeds();
+      blinkLED(ledPin7);
+      sendMidiNote(56);
+      coinsValue = coinsValue - 1;
+      break;
+    }
  //  if (c>=942 && c<=943){
  //     if (debug == 1) {Serial.print("Button 2 Pressed\r\n");};
  //     Serial.print("Button 8\r\n");
